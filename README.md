@@ -13,13 +13,10 @@ Simple Java Application about Task Management with notifications functionalities
 	2. [SOLID Principles](#Architecture/SOLID)
 ## Installation <a id='Installation'></a>
 
----
-
 In this section will show how to install and execute the program with minimal requirements. 
 
 ### Minimal requirements <a id='Installation/MinimalRequirements'></a>
 
---- 
 
 It is recommended to have Java OpenJDK 11.0.22, to know your version execute: 
 
@@ -41,8 +38,6 @@ sudo apt-get upgrade java -y
 
 ### Execution <a id='Installation/Execution'></a>
 
----
-
 First you have to move to the directory where you downloaded the .zip or cloned repository locally, then when you are inside the directory, execute the next command in terminal(Linux-bash or Windows-powershell) 
 
 ```bash
@@ -63,12 +58,14 @@ java com.actividad8.app.App
 
 ## Architecture <a id='Architecture'></a>
 
----
 
 This project is guided by Three-tier arquitecture model (Presentation, Application, Data), which will be expanded in detail, and additionaly by SOLID principles. 
+
 ### Three-Tier arquitecture<a id='Architecture/ThreeTierModel'></a>
 
-The project is divided in 3 directories, corresponding to each layer in "Three-tier" architecture, and the App.java is for execute the project. 
+---
+
+The project is divided in 3 directories, corresponding to each layer in "Three-tier" architecture, and the `App.java` is for execute the project. 
 
 
 
@@ -82,25 +79,29 @@ To understand better this is the graph dependendy:
 
 #### Presentation Layer <a id='Architecture/ThreeTierModel/Presentation'></a>
 
----
 
 This layer is specialize in developing interfaces to final-users, in which we are just using the input standard and output standard(terminal) to do all actions.
 All this only in the file: `TaskUI.java`.  
 
 #### Application Layer (Bussiness Layer) <a id='Architecture/ThreeTierModel/Application'></a>
 
----
+In this layer we have the services provided by the system, with the typical OOP App. Implemented in the directory `BussinessLayer`. 
 
-In this layer we have the services provided by the system, with the typical OOP App. 
+Detailed services: 
+- `Notifier Service` provide functionalities about send a notification and retrieve all notifications by specified user. 
+- `Task Service` provide functionalities about task management which includes a interface to data layer or task management features.  
+- `User Service` provide functionalities about interface to data layer to users such create, retrieve users. 
 
 
 #### Data Layer <a id='Architecture/ThreeTierModel/Data'></a>
 
----
-
 Finally in this layer we have the interfaces to communicate with database, in this case we are not using any database management system, just adding to a List in the same application. 
 
+The implementation behind wiil guide the repositories idea, it use interfaces to connect to database such that `Application Layer` doesn't need to do some other SQL/No SQL laguage syntax. 
 
+Detailed repositories: 
+- `User Repositoy` 
+- `Task Repository` 
 
 ### SOLID PRINCIPLES <a id='Architecture/SOLID'></a>
 
