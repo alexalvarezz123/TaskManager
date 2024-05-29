@@ -153,6 +153,15 @@ To show how it is implemented this is the class diagram:
 title: Task Manager
 ---
 classDiagram
+	namespace PresentationLayer {
+		class TaskUI {
+			+init() void
+			-addTask() void
+			-finishTask() void
+			-showListUsers() void
+			-showMailManager() void
+		}
+	}
 	namespace ApplicationLayer {
 	    class Task {
 	    	-String id
@@ -215,21 +224,12 @@ classDiagram
 			-Map~String, User~ map
 		}
 	}
-	namespace PresentationLayer {
-		class TaskUI {
-			+init() void
-			-addTask() void
-			-finishTask() void
-			-showListUsers() void
-			-showMailManager() void
-		}
-	}
 
     NotifierService <-- TaskUI
     TaskService <-- TaskUI
     UserService <-- TaskUI
 
-    NotifierService <-- NotifierServiceImpl
+    NotifierService <|-- NotifierServiceImpl
     TaskService <|-- TaskServiceImpl
     UserService <|-- UserServiceImpl
 
@@ -243,10 +243,5 @@ classDiagram
     NotifierServiceImpl <-- UserServiceImpl
 
     Task <-- User
-
-    Task <-- NotifierServiceImpl
-    Task <-- TaskServiceImpl
-    User <-- UserServiceImpl
-
 ```
 
