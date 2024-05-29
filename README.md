@@ -150,31 +150,80 @@ To show how it is implemented this is the class diagram:
 
 ```mermaid
 ---
-title: Animal example
+title: Task Manager
 ---
 classDiagram
-    note "From Duck till Zebra"
-    Animal <|-- Duck
-    note for Duck "can fly\ncan swim\ncan dive\ncan help in debugging"
-    Animal <|-- Fish
-    Animal <|-- Zebra
-    Animal : +int age
-    Animal : +String gender
-    Animal: +isMammal()
-    Animal: +mate()
-    class Duck{
-        +String beakColor
-        +swim()
-        +quack()
-    }
-    class Fish{
-        -int sizeInFeet
-        -canEat()
-    }
-    class Zebra{
-        +bool is_wild
-        +run()
-    }
+	namespace ApplicationLayer {
+	    class Task{
+	    	-String id
+	    	-String name
+	    	-String status
+	    	-List~String~ notifications
+	    }
+	    class User{
+	    	-String name
+	    	-Set~Task~ tasks
+	    }
+	    class NotifierService{
+	    	<<interface>> 
+	
+	    }
+	}
+	namespace DataLayer {
+		class TaskRepository {
+			<<interface>>
+			+addTask(task) void
+			+getTask(id) Task
+			+getAllTasks() List~Task~
+			+finish(task) void 
+		}
+		class UserRepository {
+			<<interface>>
+			+getAllUsers() List~User~
+			+getUser(id) User
+			+addUser(user) void
+		}
+		namespace Implementation {
+			class TaskRepositoryImpl {
+				-Map~String, Task~ map
+			}
+			class UserRepositoryImpl {
+				-Map~String, User~ map
+			}
+		}
+	}
+	namespace PresentationLayer {
+		class TaskUI {
+			+init() void
+			-addTask() void
+			-finishTask() void
+			-showListUsers() void
+			-showMailManager() void
+		}
+	}
+
+    NotifierService <-- TaskUI
+    TaskService <-- TaskUI
+    UserService <-- TaskUI
+
+    NotifierService <-- NotifierServiceImpl
+    TaskService <|-- TaskServiceImpl
+    UserService <|-- UserServiceImpl
+
+    TaskRepository <-- TaskServiceImpl
+    UserRepository <-- UserServiceImpl
+
+    TaskRepository <|-- TaskRepositoryImpl
+    UserRepository <|-- UserRepositoryImpl
+
+    NotifierServiceImpl <-- TaskServiceImpl
+    NotifierServiceImpl <-- UserServiceImpl
+
+    Task <-- User
+
+    Task <-- NotifierServiceImpl
+    Task <-- TaskServiceImpl
+    User <-- UserServiceImpl
 
 ```
 
