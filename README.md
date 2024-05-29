@@ -163,17 +163,6 @@ classDiagram
 		}
 	}
 	namespace ApplicationLayer {
-	    class Task {
-	    	-String id
-	    	-String name
-	    	-String status
-	    	-List~String~ notifications
-	    }
-	    class User {
-	    	-String name
-	    	-Set~Task~ tasks
-	    }
-
 	    class NotifierService {
 	    	<<interface>> 
 			+addNotification(task, notification) void
@@ -200,6 +189,19 @@ classDiagram
 	    }
 	    class UserServiceImpl {
 	    	-UserRepository userRepository
+	    }
+	    class NotifierServiceImpl {
+	    }
+
+	    	    class Task {
+	    	-String id
+	    	-String name
+	    	-String status
+	    	-List~String~ notifications
+	    }
+	    class User {
+	    	-String name
+	    	-Set~Task~ tasks
 	    }
 	}
 	namespace DataLayer {
