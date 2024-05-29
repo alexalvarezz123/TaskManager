@@ -10,7 +10,8 @@ Simple Java Application about Task Management with notifications functionalities
 		1. [Presentation Layer](#Architecture/ThreeTierModel/Presentation)
 		2. [Application Layer](#Architecture/ThreeTierModel/Application)
 		3. [Data Layer](#Architecture/ThreeTierModel/Data)
-	2. [SOLID Principles](#Architecture/SOLID)
+	2. [Pattern Designs](#Architecture/PatternDesigns)
+	3. [SOLID Principles](#Architecture/SOLID)
 ## Installation <a id='Installation'></a>
 
 In this section will show how to install and execute the program with minimal requirements. 
@@ -103,10 +104,77 @@ Detailed repositories:
 - `User Repositoy` 
 - `Task Repository` 
 
-### SOLID PRINCIPLES <a id='Architecture/SOLID'></a>
+### Pattern Designs <a id='Architecture/PatternDesigns'></a>
 
 ---
 
-This is the solid principles section
+Some pattern designs implemented are listed below: 
 
+- **Singleton** used to simulate the behaviour of database service, it is visible in the files: `TaskRepositoryImpl.java` and `UserRepositoryImpl.java`. 
+- **Flyweight** used to decrease the auxiliar space for duplicated notifications for a lot of users, it affects the behaviour of User and Task. it is implemented in file: `User.java`, for more detail:
+
+```mermaid
+graph LR
+A[User1]
+B[Task1]
+C[User2]
+D[Task2]
+A -- request notification --> B
+C -- request notification --> B
+C -- request notification --> D
+```
+
+- **Facade** increase the usability, simplifying the functionalities provided by each service robot specified in the *Application Layer*, such implementation is visible in each file: `UserService.java`, `TaskService.java`, `NotifierService.java`. 
+- **Command** used to easily implement the interfaces to each option given to end-user. Easily visible through file: `TaskUI.java`.  
+
+### SOLID Principles <a id='Architecture/SOLID'></a>
+
+---
+
+This is the solid principles section. 
+- **(S)ingle Responsibility** each class have only one responsability: 
+	- `DataLayer/Implementation/TaskRepositoryImpl`: CRUD (Create, Read, Update, Delete) functionality for Task Model. 
+	- `DataLayer/Implementation/UserRepositoryImpl`: CRUD (Create, Read, Update, Delete) functionality for User Model.
+	- `BussinessLayer/User`: functionality to add tasks. 
+	- `BussinessLayer/Task`: functionality to retrieve notifications. 
+	- `BussinessLayer/Implementation/UserServiceImpl`: Facade functionality for `UserRepositoryImpl`. 
+	- `BussinessLayer/Implementation/TaskServiceImpl`: Facade functionality for `TaskRepositoryImpl`. 
+	- `BussinessLayer/Implementation/NotifierService`: Read and write notifications functionalities. 
+	- `PresentationLayer/TaskUI`: provides a simple interface to interact to end-user. 
+- **(O)pen/Closed** implemented interfaces are *open* for extension such that new functionalities could be added easily, and closed, such that actual interfaces and implementations works correctly. This implementation is visible in `Application Layer` and `Data Layer`. 
+- **(L)iskov Substitution** defined interfaces in all system are implemented by a single and specific child class. Like above principle the implementation is visible in the same layers: `Application Layer` and `Data Layer`.
+- **(I)nterface Segregation** for each functionality provided, it has a specified interface to implement the correct behaviour, the implementation is inside the next layers: `Application Layer` and `Data Layer`.
+- **(D)ependency Inversion Principle** the class dependency for all classes built reference directly to each interface and not the specific implementation. 
+
+To show how it is implemented this is the class diagram: 
+
+```mermaid
+---
+title: Animal example
+---
+classDiagram
+    note "From Duck till Zebra"
+    Animal <|-- Duck
+    note for Duck "can fly\ncan swim\ncan dive\ncan help in debugging"
+    Animal <|-- Fish
+    Animal <|-- Zebra
+    Animal : +int age
+    Animal : +String gender
+    Animal: +isMammal()
+    Animal: +mate()
+    class Duck{
+        +String beakColor
+        +swim()
+        +quack()
+    }
+    class Fish{
+        -int sizeInFeet
+        -canEat()
+    }
+    class Zebra{
+        +bool is_wild
+        +run()
+    }
+
+```
 
