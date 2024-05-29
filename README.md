@@ -183,13 +183,12 @@ classDiagram
 			+getUser(id) User
 			+addUser(user) void
 		}
-		namespace Implementation {
-			class TaskRepositoryImpl {
-				-Map~String, Task~ map
-			}
-			class UserRepositoryImpl {
-				-Map~String, User~ map
-			}
+		
+		class TaskRepositoryImpl {
+			-Map~String, Task~ map
+		}
+		class UserRepositoryImpl {
+			-Map~String, User~ map
 		}
 	}
 	namespace PresentationLayer {
