@@ -154,19 +154,43 @@ title: Task Manager
 ---
 classDiagram
 	namespace ApplicationLayer {
-	    class Task{
+	    class Task {
 	    	-String id
 	    	-String name
 	    	-String status
 	    	-List~String~ notifications
 	    }
-	    class User{
+	    class User {
 	    	-String name
 	    	-Set~Task~ tasks
 	    }
-	    class NotifierService{
+
+	    class NotifierService {
 	    	<<interface>> 
-	
+			+addNotification(task, notification) void
+			+getNotifications(user) List~String~ 
+	    }
+	    class UserService {
+	    	<<interface>>
+			+getAllUsers() List~User~
+			+getUser(id) User
+			+addUser(user) void
+	    }
+	    class TaskService {
+			<<interface>>
+			+addTask(task) void
+			+getTask(id) Task
+			+getAllTasks() List~Task~
+			+finish(task) void 
+			+addMember(task, user) void
+	    }
+
+	    class TaskServiceImpl {
+	    	-TaskRepository taskRepository
+	    	-NotifierService notifierService 
+	    }
+	    class UserServiceImpl {
+	    	-UserRepository userRepository
 	    }
 	}
 	namespace DataLayer {
@@ -183,7 +207,7 @@ classDiagram
 			+getUser(id) User
 			+addUser(user) void
 		}
-		
+
 		class TaskRepositoryImpl {
 			-Map~String, Task~ map
 		}
